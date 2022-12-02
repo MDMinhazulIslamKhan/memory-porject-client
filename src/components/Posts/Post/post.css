@@ -1,0 +1,15 @@
+.postImage {
+    position: relative;
+}
+
+.leftDetails {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.rightDetails {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
