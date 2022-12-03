@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Posts from './components/Posts/Posts';
 import Form from './components/Form/Form'
 
@@ -7,12 +7,12 @@ import './App.css'
 import { useDispatch } from 'react-redux';
 import { getPosts } from './actions/posts';
 const App = () => {
-
+    const [currentId, setCurrentId] = useState(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPosts())
-    }, [dispatch]);
+    }, [currentId, dispatch]);
 
     return (
         <div>
@@ -24,8 +24,8 @@ const App = () => {
             </div>
             <section className='flex flex-col-reverse sm:grid md:grid-cols-3 grid-cols-2 justify-items-center mx-5 sm:auto'>
 
-                <div className='md:col-span-2'><Posts></Posts></div>
-                <div className=''><Form></Form></div>
+                <div className='md:col-span-2'><Posts setCurrentId={setCurrentId}></Posts></div>
+                <div className=''><Form currentId={currentId} setCurrentId={setCurrentId}></Form></div>
             </section>
         </div >
     );

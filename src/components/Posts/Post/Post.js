@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import './post.css'
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
     const { selectedFile, title, createdAt, creator, tags, message, likeCount } = post;
     return (
         <div className="card w-full bg-base-100 shadow-xl">
@@ -11,8 +11,9 @@ const Post = ({ post }) => {
                     <h2 className="font-bold text-white text-xl font-serif">{creator}</h2>
                     <p className="font-semibold text-white text-md font-mono">{moment(createdAt).fromNow()}</p>
                 </div>
-                <button className="rightDetails btn btn-ghost text-black font-bold text-2xl">...
-                </button>
+                <button className="rightDetails btn btn-ghost text-black font-bold text-2xl"
+                    onClick={() => setCurrentId(post._id)}
+                >...</button>
             </div>
             <p className='ml-3 italic text-sm h-5'>{tags.map(tag => tag && `#${tag} `)}</p>
             <div className="card-body items-center text-center my-0 py-0">

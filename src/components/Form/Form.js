@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FileBase from 'react-file-base64'
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
-const Form = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../actions/posts';
+const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
+    const post = useSelector(state => currentId ? state.posts.find(post => post._id === currentId) : null);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (post) setPostData(post)
+    }, [post])
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(postData);
-        dispatch(createPost(postData));
+
+        if (currentId) {
+            dispatch(updatePost(currentId, postData));
+        }
+        else {
+            dispatch(createPost(postData));
+        }
+        clear();
+        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
     };
     const clear = (e) => {
-        e.preventDefault();
+        setCurrentId(null)
         setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
     }
     return (
         <div className="w-full">
             <form autoComplete='off' className="form-control w-full max-w-xs border p-4" noValidate onSubmit={handleSubmit} action="">
                 <label className="label">
-                    <span className="label-text sm:text-xl text-center w-full">Creating a Memory</span>
+                    <span className="label-text sm:text-xl text-center w-full">{currentId ? 'Editing' : `Creating`} a Memory</span>
                 </label>
                 <input type="text" name='title' label='Title' value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} placeholder='Title' className="input input-bordered w-full max-w-xs mb-2" />
                 <input type="text" name='creator' label='Creator' value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} placeholder='Creator' className="input input-bordered w-full max-w-xs mb-2" />

@@ -20,4 +20,14 @@ export const createPost = (post) => async (dispatch) => {
     } catch (error) {
         console.log(error.message);
     }
-}
+};
+
+export const updatePost = (id, post) => async (dispatch) => {
+    try {
+        const { data } = api.updatePost(id, post);
+        dispatch({ type: 'UPDATE', payLoad: data })
+    } catch (error) {
+        console.log(error);
+    }
+};
+
