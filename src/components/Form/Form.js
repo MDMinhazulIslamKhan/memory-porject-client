@@ -11,22 +11,21 @@ const Form = ({ currentId, setCurrentId }) => {
         if (post) setPostData(post)
     }, [post])
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const clear = () => {
+        setCurrentId(null)
+        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if (currentId) {
-            dispatch(updatePost(currentId, postData));
+            await dispatch(updatePost(currentId, postData));
         }
         else {
             dispatch(createPost(postData));
         }
         clear();
-        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
     };
-    const clear = (e) => {
-        setCurrentId(null)
-        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
-    }
     return (
         <div className="w-full">
             <form autoComplete='off' className="form-control w-full max-w-xs border p-4" noValidate onSubmit={handleSubmit} action="">
@@ -39,7 +38,7 @@ const Form = ({ currentId, setCurrentId }) => {
                 <input type="text" name='tags' label='Tags' value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} placeholder='Tags' className="input input-bordered w-full max-w-xs mb-2" />
                 <FileBase type="file" multiple={false} onDone={(base64) => setPostData({ ...postData, selectedFile: base64 })} />
                 <button type="submit" className='input input-bordered w-full max-w-xs mt-2 bg-primary text-white font-bold'>Submit</button>
-                <button type="submit" className='input input-bordered h-1/2 max-w-xs mt-2 bg-secondary text-white font-bold' onClick={clear}>Clear</button>
+                <button className='input input-bordered h-1/2 max-w-xs mt-2 bg-secondary text-white font-bold' onClick={clear}>Clear</button>
             </form>
         </div>
     );

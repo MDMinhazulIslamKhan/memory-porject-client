@@ -15,14 +15,14 @@ const App = () => {
     }, [currentId, dispatch]);
 
     return (
-        <div>
+        <div className=''>
             <div className='py-3'>
                 < div className='flex gap-5 items-center justify-center py-1 rounded-lg bg-inherit shadow-xl sm:mx-20 bg-white' >
                     < h1 className='text-primary font-bold sm:text-4xl text-3xl' > Memories</h1 >
                     <img className='w-20 rounded-lg' src={memories} alt="" />
                 </div >
             </div>
-            <section className='flex flex-col-reverse sm:grid md:grid-cols-3 grid-cols-2 justify-items-center mx-5 sm:auto'>
+            <section className='flex flex-col-reverse sm:grid md:grid-cols-3 grid-cols-2 justify-items-center mx-5 sm:auto pb-32'>
 
                 <div className='md:col-span-2'><Posts setCurrentId={setCurrentId}></Posts></div>
                 <div className=''><Form currentId={currentId} setCurrentId={setCurrentId}></Form></div>
