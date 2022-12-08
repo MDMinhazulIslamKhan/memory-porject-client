@@ -12,7 +12,7 @@ const Form = ({ currentId, setCurrentId }) => {
     }, [post])
 
     const clear = () => {
-        setCurrentId(null)
+        setCurrentId(0)
         setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: {} });
     };
 
@@ -27,8 +27,8 @@ const Form = ({ currentId, setCurrentId }) => {
         clear();
     };
     return (
-        <div className="w-full">
-            <form autoComplete='off' className="form-control w-full max-w-xs border p-4" noValidate onSubmit={handleSubmit} action="">
+        <div className="">
+            <form autoComplete='off' className="form-control mx-auto w-full max-w-xs border p-4" noValidate onSubmit={handleSubmit} action="">
                 <label className="label">
                     <span className="label-text sm:text-xl text-center w-full">{currentId ? 'Editing' : `Creating`} a Memory</span>
                 </label>
@@ -38,7 +38,7 @@ const Form = ({ currentId, setCurrentId }) => {
                 <input type="text" name='tags' label='Tags' value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} placeholder='Tags' className="input input-bordered w-full max-w-xs mb-2" />
                 <FileBase type="file" multiple={false} onDone={(base64) => setPostData({ ...postData, selectedFile: base64 })} />
                 <button type="submit" className='input input-bordered w-full max-w-xs mt-2 bg-primary text-white font-bold'>Submit</button>
-                <button className='input input-bordered h-1/2 max-w-xs mt-2 bg-secondary text-white font-bold' onClick={clear}>Clear</button>
+                <button type='button' className='input input-bordered h-1/2 max-w-xs mt-2 bg-secondary text-white font-bold' onClick={clear}>Clear</button>
             </form>
         </div>
     );

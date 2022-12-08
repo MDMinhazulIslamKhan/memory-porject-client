@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form'
-
-import memories from './images/memories.jpg'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home/Home';
+import Navbar from './components/Navbar/Navbar';
 import './App.css'
-import { useDispatch } from 'react-redux';
-import { getPosts } from './actions/posts';
+import Error from './components/Common/Error';
+import Auth from './components/Common/Auth/Auth';
 const App = () => {
-    const [currentId, setCurrentId] = useState(null);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getPosts())
-    }, [currentId, dispatch]);
 
     return (
-        <div className=''>
-            <div className='py-3'>
-                < div className='flex gap-5 items-center justify-center py-1 rounded-lg bg-inherit shadow-xl sm:mx-20 bg-white' >
-                    < h1 className='text-primary font-bold sm:text-4xl text-3xl' > Memories</h1 >
-                    <img className='w-20 rounded-lg' src={memories} alt="" />
-                </div >
-            </div>
-            <section className='flex flex-col-reverse sm:grid md:grid-cols-3 grid-cols-2 justify-items-center mx-5 sm:auto pb-32'>
-
-                <div className='md:col-span-2'><Posts setCurrentId={setCurrentId}></Posts></div>
-                <div className=''><Form currentId={currentId} setCurrentId={setCurrentId}></Form></div>
-            </section>
-        </div >
+        <BrowserRouter>
+            <div className='.body'>
+                <Navbar></Navbar>
+                <Routes>
+                    <Route path='/' element={<Home></Home>} />
+                    <Route path='/login' element={<Auth></Auth>} />
+                    <Route path='*' element={<Error></Error>} />
+                </Routes>
+            </div >
+        </BrowserRouter>
     );
 };
 
