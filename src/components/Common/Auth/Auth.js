@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useUpdateProfile, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useSignInWithGoogle, useCreateUserWithEmailAndPassword, useUpdateProfile, useSignInWithEmailAndPassword, useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../Firebase Authentication/firebase.init'
-import { async } from '@firebase/util';
 
 const Auth = () => {
     const { register, formState: { errors }, handleSubmit, getValues, reset } = useForm();
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const navigate = useNavigate();
+    const [owner] = useAuthState(auth);
 
     const [
         createUserWithEmailAndPassword,
@@ -31,14 +32,13 @@ const Auth = () => {
         errorMassage = <p className='text-red-500 my-2'><small>{error?.message || gError?.message || updateError?.message || lInError?.message}</small></p>
     }
 
-    const navigate = useNavigate();
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
     useEffect(() => {
-        if (gUser || user || lInUser) {
+        if (gUser || user || lInUser || owner) {
             navigate(from, { replace: true });
         }
-    }, [gUser, user, lInUser, from, navigate]);
+    }, [gUser, user, lInUser, from, navigate, owner]);
 
     const onSubmit = async () => {
         if (isSignUp) {

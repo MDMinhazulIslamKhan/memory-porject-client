@@ -1,14 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import memories from '../../images/memories.jpg'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../Firebase Authentication/firebase.init';
 import { useSignOut } from 'react-firebase-hooks/auth';
+import { useDispatch } from 'react-redux';
+import { AUTH, LOGOUT } from '../../constants/actionType';
+
+
 
 const Navbar = () => {
     const [user] = useAuthState(auth);
+    const [owner, setOwner] = useState(JSON.parse(localStorage.getItem('profile')));
     const [signOut] = useSignOut(auth);
-    console.log(user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    if (user) {
+        const result = user?.reloadUserInfo;
+        const token = user?.accessToken;
+        dispatch({ type: AUTH, data: { result, token } })
+    };
+
+    const logout = async () => {
+        await signOut();
+        dispatch({ type: LOGOUT });
+        navigate('/');
+    }
+    useEffect(() => {
+        setOwner(JSON.parse(localStorage.getItem('profile')));
+    }, [navigate])
+
     return (
         <div className='py-3'>
             < div className='flex sm:px-20 pl-7 pr-4 items-center justify-center py-1 rounded-lg bg-inherit shadow-xl sm:mx-20 bg-white' >
@@ -18,8 +39,9 @@ const Navbar = () => {
                 </div>
 
                 {user ?
-                    <div className='ml-auto'>
-                        <button className='btn btn-ghost border border-secondary bg-red-100 hover:bg-secondary btn-xs hover:text-white w-fit' onClick={() => signOut()}>Log out</button>
+                    <div className='ml-auto flex justify-center items-center'>
+                        <p className='mr-2 hidden md:block text-xs text-neutral'>{owner?.result?.displayName?.split(' ').slice(0, 2).join(' ')}</p>
+                        <button className='btn btn-ghost border border-secondary bg-red-100 hover:bg-secondary btn-xs hover:text-white w-fit' onClick={() => logout()}>Log out</button>
                     </div>
                     :
                     <div>

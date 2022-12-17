@@ -7,7 +7,7 @@ export const getPosts = () => async (dispatch) => {
 
         dispatch({ type: FETCH_ALL, payLoad: data });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 };
 
@@ -19,7 +19,7 @@ export const createPost = (post) => async (dispatch) => {
             payLoad: data
         });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
     }
 };
 
