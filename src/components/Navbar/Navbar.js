@@ -32,7 +32,7 @@ const Navbar = () => {
 
     return (
         <div className='py-3'>
-            < div className='flex sm:px-20 pl-7 pr-4 items-center justify-center py-1 rounded-lg bg-inherit shadow-xl sm:mx-20 bg-white' >
+            < div className='flex sm:px-20 pl-7 pr-4 items-center justify-center py-1 rounded-lg bg-inherit shadow-xl sm:mx-20 bg-[#FFFFFF]' >
                 <div className='flex items-center justify-center mr-auto'>
                     <Link to='/' className='text-primary font-bold sm:text-3xl text-2xl' > Memories</Link>
                     <Link to='/'><img className='w-12 ml-3 sm:ml-10 sm:w-20 rounded-lg' src={memories} alt="" /></Link>
